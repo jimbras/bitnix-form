@@ -1,0 +1,34 @@
+{
+  "name": "bitnix/form",
+  "description": "Bitnix Form Tools",
+  "type": "library",
+  "license": "AGPL-3.0",
+  "authors": [
+    { "name": "bitnix", "email": "bitnix@riseup.net" }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-filter": "*",
+    "ext-mbstring": "*",
+    "ext-session": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Bitnix\\Form\\" : "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Bitnix\\Form\\" : "test/src"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --colors=always -c test/phpunit.xml --coverage-html test/out"
+  }
+}
