@@ -15,33 +15,48 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/agpl-3.0.txt>.
  */
 
-namespace Bitnix\Form;
+namespace Bitnix\Form\Input\Validator;
+
+use Bitnix\Form\Input\Validator;
 
 /**
  * @version 0.1.0
  */
-interface Widget extends Element {
+final class ValidatorGroup implements Validator {
+
+    /**
+     * @var array
+     */
+    private array $group;
+
+    /**
+     * @param Validator ...$validators
+     */
+    public function __construct(Validator ...$validators) {
+        $this->group = $validators;
+    }
+
+    /**
+     * @param mixed $input
+     * @return array
+     * @throws \Bitnix\\Form\SecurityException
+     * @throws \UnexpectedValueException
+     */
+    public function validate($input) : array {
+        $errors = [];
+        foreach ($this->group as $validator) {
+            if ($failed = $validator->validate($input)) {
+                $errors = \array_merge($errors, $failed);
+            }
+        }
+        return $errors ? \array_keys(\array_flip($errors)) : [];
+    }
 
     /**
      * @return string
      */
-    public function name() : string;
-
-    /**
-     * @return null|string
-     */
-    public function label() : ?string;
-
-    /**
-     * @return null|string
-     */
-    public function usage() : ?string;
-
-    /**
-     * @param array $attrs
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function render(array $attrs = []) : string;
+    public function __toString() : string {
+        return self::CLASS;
+    }
 
 }

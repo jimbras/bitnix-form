@@ -15,33 +15,18 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/agpl-3.0.txt>.
  */
 
-namespace Bitnix\Form;
+namespace Bitnix\Form\Input;
+
+use Bitnix\Form\Sanitizer;
 
 /**
  * @version 0.1.0
  */
-interface Widget extends Element {
+interface Reporter extends Sanitizer {
 
     /**
-     * @return string
+     * @return array
      */
-    public function name() : string;
-
-    /**
-     * @return null|string
-     */
-    public function label() : ?string;
-
-    /**
-     * @return null|string
-     */
-    public function usage() : ?string;
-
-    /**
-     * @param array $attrs
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function render(array $attrs = []) : string;
+    public function errors() : array;
 
 }

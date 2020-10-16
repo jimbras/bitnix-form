@@ -15,33 +15,18 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/agpl-3.0.txt>.
  */
 
-namespace Bitnix\Form;
+namespace Bitnix\Form\Input;
 
 /**
  * @version 0.1.0
  */
-interface Widget extends Element {
+interface Validator {
 
     /**
-     * @return string
+     * @param mixed $input
+     * @return array
+     * @throws \Bitnix\\Form\SecurityException
+     * @throws \UnexpectedValueException
      */
-    public function name() : string;
-
-    /**
-     * @return null|string
-     */
-    public function label() : ?string;
-
-    /**
-     * @return null|string
-     */
-    public function usage() : ?string;
-
-    /**
-     * @param array $attrs
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function render(array $attrs = []) : string;
-
+    public function validate($input) : array;
 }

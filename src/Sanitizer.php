@@ -20,28 +20,24 @@ namespace Bitnix\Form;
 /**
  * @version 0.1.0
  */
-interface Widget extends Element {
+interface Sanitizer {
 
     /**
-     * @return string
+     * @param string $name
+     * @param mixed $input
+     * @return mixed
+     * @throws SecurityException
+     * @throws \UnexpectedValueException
      */
-    public function name() : string;
+    public function filter(string $name, $input);
 
     /**
-     * @return null|string
+     * @param string $name
+     * @param mixed $input
+     * @return array
+     * @throws SecurityException
+     * @throws \UnexpectedValueException
      */
-    public function label() : ?string;
-
-    /**
-     * @return null|string
-     */
-    public function usage() : ?string;
-
-    /**
-     * @param array $attrs
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function render(array $attrs = []) : string;
+    public function validate(string $name, $input) : array;
 
 }

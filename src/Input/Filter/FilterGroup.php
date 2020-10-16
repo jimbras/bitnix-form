@@ -15,33 +15,44 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/agpl-3.0.txt>.
  */
 
-namespace Bitnix\Form;
+namespace Bitnix\Form\Input\Filter;
+
+use Bitnix\Form\Input\Filter;
 
 /**
  * @version 0.1.0
  */
-interface Widget extends Element {
+final class FilterGroup implements Filter {
+
+    /**
+     * @var array
+     */
+    private array $group;
+
+    /**
+     * @param Filter ...$filters
+     */
+    public function __construct(Filter ...$filters) {
+        $this->group = $filters;
+    }
+
+    /**
+     * @param mixed $input
+     * @return mixed
+     * @throws \Bitnix\\Form\SecurityException
+     * @throws \UnexpectedValueException
+     */
+    public function filter($input) {
+        foreach ($this->group as $filter) {
+            $input = $filter->filter($input);
+        }
+        return $input;
+    }
 
     /**
      * @return string
      */
-    public function name() : string;
-
-    /**
-     * @return null|string
-     */
-    public function label() : ?string;
-
-    /**
-     * @return null|string
-     */
-    public function usage() : ?string;
-
-    /**
-     * @param array $attrs
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function render(array $attrs = []) : string;
-
+    public function __toString() : string {
+        return self::CLASS;
+    }
 }
