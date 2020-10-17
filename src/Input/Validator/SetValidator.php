@@ -35,10 +35,10 @@ final class SetValidator implements Validator {
     private array $allowed;
 
     /**
-     * @param array $allowed
      * @param string $error
+     * @param array $allowed
      */
-    public function __construct(array $allowed, string $error) {
+    public function __construct(string $error, array $allowed) {
         $this->allowed = $allowed;
         $this->error = $error;
     }

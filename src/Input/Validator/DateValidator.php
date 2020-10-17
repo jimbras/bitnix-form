@@ -38,10 +38,10 @@ final class DateValidator implements Validator {
     private string $format;
 
     /**
-     * @param string $format
      * @param string $error
+     * @param string $format
      */
-    public function __construct(string $format, string $error) {
+    public function __construct(string $error, string $format) {
         $this->error = $error;
         $this->format = $format;
     }

@@ -26,17 +26,17 @@ use Bitnix\Form\SecurityException,
 class StrictSetValidatorTest extends TestCase {
 
     public function testValidate() {
-        $validator = new StrictSetValidator(['a', 'b', 'c'], 'kaput');
+        $validator = new StrictSetValidator('kaput', ['a', 'b', 'c']);
         $this->assertEquals([], $validator->validate('a'));
     }
 
     public function testValidateError() {
         $this->expectException(SecurityException::CLASS);
-        $validator = new StrictSetValidator(['a', 'b', 'c'], 'kaput');
+        $validator = new StrictSetValidator('kaput', ['a', 'b', 'c']);
         $validator->validate('d');
     }
 
     public function testToString() {
-        $this->assertIsString((string) new StrictSetValidator(['a', 'b', 'c'], 'kaput'));
+        $this->assertIsString((string) new StrictSetValidator('kaput', ['a', 'b', 'c']));
     }
 }

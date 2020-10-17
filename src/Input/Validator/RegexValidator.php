@@ -38,11 +38,11 @@ final class RegexValidator implements Validator {
     private string $error;
 
     /**
-     * @param string $pattern
      * @param string $error
+     * @param string $pattern
      * @throws InvalidArgumentException
      */
-    public function __construct(string $pattern, string $error) {
+    public function __construct(string $error, string $pattern) {
         if (false === @\preg_match($pattern, '')) {
             throw new InvalidArgumentException(\sprintf(
                 'Invalid validation pattern: %s', $pattern

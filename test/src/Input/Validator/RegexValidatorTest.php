@@ -26,23 +26,23 @@ class RegexValidatorTest extends TestCase {
 
     public function testInvalidRegex() {
         $this->expectException(\InvalidArgumentException::CLASS);
-        new RegexValidator('~[a-z]+', 'kaput');
+        new RegexValidator('kaput', '~[a-z]+');
     }
 
     public function testValidator() {
-        $rule = new RegexValidator('~^[a-z]+$~', 'kaput');
+        $rule = new RegexValidator('kaput', '~^[a-z]+$~');
         $this->assertEquals([], $rule->validate('foo'));
         $this->assertEquals(['kaput'], $rule->validate('foo bar'));
     }
 
     public function testValidateRequiresString() {
         $this->expectException(\UnexpectedValueException::CLASS);
-        $rule = new RegexValidator('~^[a-z]+$~', 'kaput');
+        $rule = new RegexValidator('kaput', '~^[a-z]+$~');
         $rule->validate([]);
     }
 
     public function testToString() {
-        $this->assertIsString((string) new RegexValidator('~^[a-z]+$~', 'kaput'));
+        $this->assertIsString((string) new RegexValidator('kaput', '~^[a-z]+$~'));
     }
 
 }

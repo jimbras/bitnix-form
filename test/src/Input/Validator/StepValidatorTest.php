@@ -26,18 +26,18 @@ class StepValidatorTest extends TestCase {
 
     public function testInvalidStepValue() {
         $this->expectException(\InvalidArgumentException::CLASS);
-        new StepValidator(0, 'kaput');
+        new StepValidator('kaput', 0);
     }
 
     public function testValidate() {
-        $rule = new StepValidator(1, 'kaput');
+        $rule = new StepValidator('kaput');
         $this->assertEquals([], $rule->validate(1));
         $this->assertEquals([], $rule->validate(0));
         $this->assertEquals([], $rule->validate(10));
         $this->assertEquals([], $rule->validate('-10'));
         $this->assertEquals(['kaput'], $rule->validate(10.5));
 
-        $rule = new StepValidator(0.25, 'kaput');
+        $rule = new StepValidator('kaput', 0.25);
         $this->assertEquals([], $rule->validate(1.75));
         $this->assertEquals([], $rule->validate(0));
         $this->assertEquals([], $rule->validate(10.25));
@@ -47,12 +47,12 @@ class StepValidatorTest extends TestCase {
 
     public function testInputMustBeNumeric() {
         $this->expectException(\UnexpectedValueException::CLASS);
-        $rule = new StepValidator(1, 'kaput');
+        $rule = new StepValidator('kaput');
         $rule->validate('foo');
     }
 
     public function testToString() {
-        $this->assertIsString((string) new StepValidator(1, 'kaput'));
+        $this->assertIsString((string) new StepValidator('kaput'));
     }
 
 }

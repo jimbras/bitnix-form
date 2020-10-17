@@ -26,19 +26,19 @@ class DateValidatorTest extends TestCase {
 
     public function testDateValidatorRequiresString() {
         $this->expectException(\UnexpectedValueException::CLASS);
-        $rule = new DateValidator('d/m/Y', 'kaput');
+        $rule = new DateValidator('kaput', 'd/m/Y');
         $rule->validate($this);
     }
 
     public function testValidate() {
-        $rule = new DateValidator('d/m/Y', 'kaput');
+        $rule = new DateValidator('kaput', 'd/m/Y');
         $this->assertEquals([], $rule->validate('01/01/2020'));
         $this->assertEquals(['kaput'], $rule->validate('2020/01/01'));
         $this->assertEquals(['kaput'], $rule->validate('29/02/2019'));
     }
 
     public function testToString() {
-        $this->assertIsString((string) new DateValidator('kaput', 'd/m/Y'));
+        $this->assertIsString((string) new DateValidator('d/m/Y', 'kaput'));
     }
 
 }

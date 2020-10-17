@@ -38,11 +38,11 @@ final class StepValidator implements Validator {
     private float $step;
 
     /**
-     * @param float $step
      * @param string $error
+     * @param float $step
      * @throws InvalidArgumentException
      */
-    public function __construct(float $step, string $error) {
+    public function __construct(string $error, float $step = 1) {
         if (0.0 === $step) {
             throw new InvalidArgumentException('Step value cannot be zero');
         }

@@ -25,12 +25,12 @@ use PHPUnit\Framework\TestCase;
 class SetValidatorTest extends TestCase {
 
     public function testValidate() {
-        $validator = new SetValidator(['a', 'b', 'c'], 'kaput');
+        $validator = new SetValidator('kaput', ['a', 'b', 'c']);
         $this->assertEquals([], $validator->validate('a'));
         $this->assertEquals(['kaput'], $validator->validate('d'));
     }
 
     public function testToString() {
-        $this->assertIsString((string) new SetValidator(['a', 'b', 'c'], 'kaput'));
+        $this->assertIsString((string) new SetValidator('kaput', ['a', 'b', 'c']));
     }
 }
