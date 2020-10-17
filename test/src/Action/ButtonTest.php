@@ -27,7 +27,8 @@ class ButtonTest extends TestCase {
 
     public function testConstructor() {
 
-        $button = new Button('foo', 'Some <b>text</b>', [
+        $button = new Button('foo', [
+            'content' => 'Some <b>text</b>',
             'label' => 'Foo',
             'usage' => 'Foo usage...'
         ]);
@@ -40,7 +41,8 @@ class ButtonTest extends TestCase {
 
 
     public function testRender() {
-        $button = new Button('foo', 'Some <b>text</b>', [
+        $button = new Button('foo', [
+            'content' => 'Some <b>text</b>',
             'value' => 'bar'
         ]);
         $html = $button->render();
@@ -53,7 +55,9 @@ class ButtonTest extends TestCase {
     }
 
     public function testProcess() {
-        $button = new Button('foo', 'Some <b>text</b>');
+        $button = new Button('foo', [
+            'content' => 'Some <b>text</b>'
+        ]);
 
         $validator = $this->createMock(Sanitizer::CLASS);
         $validator

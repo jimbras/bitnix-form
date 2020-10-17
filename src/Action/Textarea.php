@@ -17,8 +17,6 @@
 
 namespace Bitnix\Form\Action;
 
-use Bitnix\Form\Validator;
-
 /**
  * @version 0.1.0
  */
@@ -27,7 +25,7 @@ final class Textarea extends AbstractControl {
     /**
      * @var string
      */
-    private ?string $content;
+    private ?string $content = null;
 
     /**
      * @var string
@@ -36,13 +34,17 @@ final class Textarea extends AbstractControl {
 
     /**
      * @param string $name
-     * @param null|string $content
      * @param array $config
      * @throws InvalidArgumentException
      */
-    public function __construct(string $name, string $content = null, array $config = []) {
+    public function __construct(string $name, array $config = []) {
+        if (isset($config['content'])) {
+            $this->content = $config['content'];
+            unset($config['content']);
+        }
+
         parent::__construct($name, [], $config);
-        $this->content = $content;
+
         $this->charset = $this->attributes()->charset();
     }
 

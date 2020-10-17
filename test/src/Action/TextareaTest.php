@@ -27,7 +27,8 @@ class TextareaTest extends TestCase {
 
     public function testConstructor() {
 
-        $textarea = new Textarea('foo', 'Some <b>text</b>', [
+        $textarea = new Textarea('foo', [
+            'content' => 'Some <b>text</b>',
             'label' => 'Foo',
             'usage' => 'Foo usage...'
         ]);
@@ -39,7 +40,9 @@ class TextareaTest extends TestCase {
     }
 
     public function testRender() {
-        $textarea = new Textarea('foo', 'Some <b>text</b>');
+        $textarea = new Textarea('foo', [
+            'content' => 'Some <b>text</b>'
+        ]);
         $html = $textarea->render();
         $this->assertStringStartsWith('<textarea', $html);
         $this->assertStringContainsString('name="foo"', $html);
