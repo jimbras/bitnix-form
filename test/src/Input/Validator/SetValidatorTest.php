@@ -17,17 +17,29 @@
 
 namespace Bitnix\Form\Input\Validator;
 
-use PHPUnit\Framework\TestCase;
+use Bitnix\Form\SecurityException,
+    PHPUnit\Framework\TestCase;
 
 /**
  * @version 0.1.0
  */
 class SetValidatorTest extends TestCase {
 
+    public function testInvalidConstructor() {
+        $this->expectException(\InvalidArgumentException::CLASS);
+        new SetValidator('kaput', []);
+    }
+
     public function testValidate() {
         $validator = new SetValidator('kaput', ['a', 'b', 'c']);
         $this->assertEquals([], $validator->validate('a'));
         $this->assertEquals(['kaput'], $validator->validate('d'));
+    }
+
+    public function testStrictValidation() {
+        $this->expectException(SecurityException::CLASS);
+        $validator = new SetValidator('kaput', ['a', 'b', 'c'], true);
+        $validator->validate('d');
     }
 
     public function testToString() {

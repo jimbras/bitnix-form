@@ -17,7 +17,9 @@
 
 namespace Bitnix\Form\Input\Validator;
 
-use Bitnix\Form\Input\Validator;
+use InvalidArgumentException,
+    Bitnix\Form\SecurityException,
+    Bitnix\Form\Input\Validator;
 
 /**
  * @version 0.1.0
@@ -37,10 +39,16 @@ final class SetValidator implements Validator {
     /**
      * @param string $error
      * @param array $allowed
+     * @param bool $strict
+     * @throws InvalidArgumentException
      */
-    public function __construct(string $error, array $allowed) {
+    public function __construct(string $error, array $allowed, bool $strict = false) {
+        if (empty($allowed)) {
+            throw new InvalidArgumentException('Empty validator set not allowed');
+        }
         $this->allowed = $allowed;
         $this->error = $error;
+        $this->strict = $strict;
     }
 
     /**
@@ -51,13 +59,28 @@ final class SetValidator implements Validator {
      */
     public function validate($input) : array {
 
-        foreach ((array) $input as $value) {
-            if (!\in_array($value, $this->allowed, true)) {
-                return [$this->error];
-            }
+        if ($this->valid($input)) {
+            return [];
         }
 
-        return [];
+        if ($this->strict) {
+            throw new SecurityException($this->error);
+        }
+
+        return [$this->error];
+    }
+
+    /**
+     * @param mixed $input
+     * @return bool
+     */
+    private function valid($input) : bool {
+        foreach ((array) $input as $value) {
+            if (!\in_array($value, $this->allowed, true)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
