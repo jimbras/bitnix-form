@@ -35,18 +35,28 @@ final class Button extends AbstractControl {
      * @throws InvalidArgumentException
      */
     public function __construct(string $name, array $config = []) {
-        if (isset($config['content'])) {
-            $this->content = $config['content'];
-            unset($config['content']);
-        }
         parent::__construct(
             $name,
             [
                 'type'  => $config['type'] ?? 'submit',
                 'value' => $config['value'] ?? $name
             ],
-            $config
+            self::setup($config, $content)
         );
+        $this->content = $content;
+    }
+
+    /**
+     * @param array $config
+     * @param null|string $content
+     * @return array
+     */
+    private static function setup(array $config, string &$content = null) : array {
+        if (isset($config['content'])) {
+            $content = $config['content'];
+            unset($config['content']);
+        }
+        return $config;
     }
 
     /**

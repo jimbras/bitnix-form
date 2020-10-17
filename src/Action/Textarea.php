@@ -38,14 +38,22 @@ final class Textarea extends AbstractControl {
      * @throws InvalidArgumentException
      */
     public function __construct(string $name, array $config = []) {
+        parent::__construct($name, [], self::setup($config, $content));
+        $this->content = $content;
+        $this->charset = $this->attributes()->charset();
+    }
+
+    /**
+     * @param array $config
+     * @param null|string $content
+     * @return array
+     */
+    private static function setup(array $config, string &$content = null) : array {
         if (isset($config['content'])) {
-            $this->content = $config['content'];
+            $content = $config['content'];
             unset($config['content']);
         }
-
-        parent::__construct($name, [], $config);
-
-        $this->charset = $this->attributes()->charset();
+        return $config;
     }
 
     /**
