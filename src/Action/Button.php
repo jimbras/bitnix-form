@@ -50,6 +50,20 @@ final class Button extends AbstractControl {
     }
 
     /**
+     * @return string
+     */
+    public function value() : string {
+        return $this->attributes()->get('value');
+    }
+
+    /**
+     * @return null|string
+     */
+    public function content() : ?string {
+        return $this->content;
+    }
+
+    /**
      * @param mixed $value
      */
     protected function update($value) : void {

@@ -37,6 +37,9 @@ class ButtonTest extends TestCase {
         $this->assertEquals('foo', $button->attribute('value'));
         $this->assertEquals('Foo', $button->label());
         $this->assertEquals('Foo usage...', $button->usage());
+
+        $this->assertEquals('foo', $button->value());
+        $this->assertEquals('Some <b>text</b>', $button->content());
     }
 
 
