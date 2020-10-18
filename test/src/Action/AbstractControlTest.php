@@ -73,12 +73,6 @@ class AbstractControlTest extends TestCase {
     }
 
     public function testProcess() {
-        $control = $this->control();
-        $control
-            ->expects($this->once())
-            ->method('update')
-            ->with('input');
-
         $validator = $this->createMock(Sanitizer::CLASS);
         $validator
             ->expects($this->once())
@@ -90,6 +84,13 @@ class AbstractControlTest extends TestCase {
             ->method('validate')
             ->with('test', 'input')
             ->will($this->returnValue(['kaput']));
+
+        $control = $this->control();
+        $control
+            ->expects($this->once())
+            ->method('update')
+            ->with($validator, 'input')
+            ->will($this->returnValue('input'));
 
         $this->assertTrue($control->valid());
         $this->assertEquals([], $control->errors());

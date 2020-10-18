@@ -17,7 +17,8 @@
 
 namespace Bitnix\Form\Action;
 
-use InvalidArgumentException;
+use InvalidArgumentException,
+    Bitnix\Form\Sanitizer;
 
 /**
  * @version 0.1.0
@@ -84,10 +85,13 @@ final class Select extends AbstractControl {
     }
 
     /**
+     * @param Sanitizer $sanitizer
      * @param mixed $value
+     * @return mixed
      */
-    protected function update($value) : void {
-        $this->options->select(...((array) $value));
+    protected function update(Sanitizer $sanitizer, $value) {
+        $selected = $this->options->select(...((array) $value));
+        return $this->multiple ? $selected : ($selected[0] ?? null);
     }
 
     /**

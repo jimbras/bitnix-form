@@ -17,6 +17,8 @@
 
 namespace Bitnix\Form\Action;
 
+use Bitnix\Form\Sanitizer;
+
 /**
  * @version 0.1.0
  */
@@ -60,10 +62,13 @@ final class Button extends AbstractControl {
     }
 
     /**
+     * @param Sanitizer $sanitizer
      * @param mixed $value
+     * @return mixed
      */
-    protected function update($value) : void {
+    protected function update(Sanitizer $sanitizer, $value) {
         $this->attributes()->set('value', $value);
+        return $value;
     }
 
     /**

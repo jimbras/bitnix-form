@@ -17,8 +17,10 @@
 
 namespace Bitnix\Form\Action;
 
-use Bitnix\Form\SecurityException,
+use ReflectionObject,
+    Bitnix\Form\SecurityException,
     Bitnix\Form\Input\Reporter,
+    Bitnix\Form\Util\Attributes,
     PHPUnit\Framework\TestCase;
 
 /**
@@ -182,6 +184,13 @@ class AbstractFormTest extends TestCase {
 
         $form = $this->form('test', [], $control);
         $form->process(['foo' => 'bar']);
+    }
+
+    public function testAttributes() {
+        $form = $this->form();
+        $getter = (new ReflectionObject($form))->getMethod('attributes');
+        $getter->setAccessible(true);
+        $this->assertInstanceOF(Attributes::CLASS, $getter->invoke($form));
     }
 
     public function testToString() {

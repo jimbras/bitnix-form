@@ -17,6 +17,8 @@
 
 namespace Bitnix\Form\Action;
 
+use Bitnix\Form\Sanitizer;
+
 /**
  * @version 0.1.0
  */
@@ -34,10 +36,13 @@ final class Radio extends Input {
     }
 
     /**
+     * @param Sanitizer $sanitizer
      * @param mixed $value
+     * @return mixed
      */
-    protected function update($value) : void {
+    protected function update(Sanitizer $sanitizer, $value) {
         $attrs = $this->attributes();
         $attrs->set('checked', $value === $attrs->get('value'));
+        return $value;
     }
 }

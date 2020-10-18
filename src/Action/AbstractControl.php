@@ -96,9 +96,11 @@ abstract class AbstractControl implements Control {
     }
 
     /**
+     * @param Sanitizer $sanitizer
      * @param mixed $value
+     * @return mixed
      */
-    protected abstract function update($value) : void;
+    protected abstract function update(Sanitizer $sanitizer, $value);
 
     /**
      * @param string $name
@@ -194,8 +196,7 @@ abstract class AbstractControl implements Control {
     public function process(Sanitizer $sanitizer, array $input) {
         $value = $sanitizer->filter($this->name, $this->extract($input));
         $this->errors = $sanitizer->validate($this->name, $value);
-        $this->update($value);
-        return $value;
+        return $this->update($sanitizer, $value);
     }
 
     /**

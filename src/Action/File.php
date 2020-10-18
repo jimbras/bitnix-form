@@ -17,7 +17,8 @@
 
 namespace Bitnix\Form\Action;
 
-use Bitnix\Form\Util\Files;
+use Bitnix\Form\Sanitizer,
+    Bitnix\Form\Util\Files;
 
 /**
  * @version 0.1.0
@@ -42,7 +43,11 @@ final class File extends Input {
     }
 
     /**
+     * @param Sanitizer $sanitizer
      * @param mixed $value
+     * @return mixed
      */
-    protected function update($value) : void {}
+    protected function update(Sanitizer $sanitizer, $value) {
+        return $value;
+    }
 }
