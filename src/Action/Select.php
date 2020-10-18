@@ -17,53 +17,77 @@
 
 namespace Bitnix\Form\Action;
 
+use InvalidArgumentException;
+
 /**
  * @version 0.1.0
  */
-final class Button extends AbstractControl {
+final class Select extends AbstractControl {
+
+    /**
+     * @var bool
+     */
+    private bool $multiple;
 
     /**
      * @var string
      */
-    private ?string $content = null;
+    private string $charset;
+
+    /**
+     * @var Options
+     */
+    private Options $options;
 
     /**
      * @param string $name
-     * @param null|string $content
+     * @param null|Options $options
      * @param array $config
      * @throws InvalidArgumentException
      */
-    public function __construct(string $name, string $content = null, array $config = []) {
+    public function __construct(string $name, Options $options = null, array $config = []) {
         parent::__construct(
             $name,
             [
-                'type'  => $config['type'] ?? 'submit',
-                'value' => $config['value'] ?? $name
+                'multiple' => $multiple = 0 === \substr_compare($name, '[]', -2, 2)
             ],
             $config
         );
-        $this->content = $content;
+
+        $this->options = $options ?: new Optlist();
+        if (!$multiple && ($count = \count($this->options->selected())) > 1) {
+            throw new InvalidArgumentException(\sprintf(
+                'Too many selected options for select %s, got %s, but only one is allowed',
+                    $this->name(),
+                    $count
+            ));
+        }
+
+        $this->multiple = $multiple;
+        $this->charset = $this->attributes()->charset();
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function value() : string {
-        return $this->attributes()->get('value');
+    public function selected() {
+        $selected = $this->options->selected();
+        return $this->multiple ? $selected : ($selected[0] ?? null);
     }
 
     /**
-     * @return null|string
+     * @param array $input
+     * @return mixed
      */
-    public function content() : ?string {
-        return $this->content;
+    protected function multiple(array $input) {
+        return $input;
     }
 
     /**
      * @param mixed $value
      */
     protected function update($value) : void {
-        $this->attributes()->set('value', $value);
+        $this->options->select(...((array) $value));
     }
 
     /**
@@ -73,10 +97,9 @@ final class Button extends AbstractControl {
      */
     public function render(array $attrs = []) : string {
         return \sprintf(
-            '<button %s>%s</button>',
+            '<select %s>%s</select>',
                 $this->attributes()->render($attrs),
-                $this->content
+                $this->options->render($this->charset)
         );
     }
-
 }

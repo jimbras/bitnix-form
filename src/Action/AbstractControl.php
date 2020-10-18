@@ -222,15 +222,27 @@ abstract class AbstractControl implements Control {
 
         if (\is_array($input)) {
             if ($this->multiple) {
-                $input = $input[$this->index] ?? null;
+                $input = $this->multiple($input);
             } else if (!$this->accept($input)) {
                 throw new SecurityException(\sprintf(
                     '%s received an unexpected value...', $this
                 ));
             }
+        } else if ($this->multiple) {
+            throw new SecurityException(\sprintf(
+                '%s received an unexpected value...', $this
+            ));
         }
 
         return $input;
+    }
+
+    /**
+     * @param array $input
+     * @return mixed
+     */
+    protected function multiple(array $input) {
+        return $input[$this->index] ?? null;
     }
 
     /**

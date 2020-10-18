@@ -162,13 +162,22 @@ class AbstractControlTest extends TestCase {
         $this->assertEquals('baz', $method->invoke($control, ['test' => ['foo' => ['bar', 'baz']]]));
     }
 
-    public function testExtractMultipleValues() {
+    public function testExtractUnexpectedMultipleValuesError() {
         $this->expectException(SecurityException::CLASS);
         $control = $this->control();
         $reflection = new ReflectionObject($control);
         $method = $reflection->getMethod('extract');
         $method->setAccessible(true);
         $this->assertEquals('foo', $method->invoke($control, ['test' => ['foo', 'bar']]));
+    }
+
+    public function testExtractUnexpectedSingleValueError() {
+        $this->expectException(SecurityException::CLASS);
+        $control = $this->control('test[]');
+        $reflection = new ReflectionObject($control);
+        $method = $reflection->getMethod('extract');
+        $method->setAccessible(true);
+        $this->assertEquals('foo', $method->invoke($control, ['test' => 'foo']));
     }
 
     public function testToString() {
